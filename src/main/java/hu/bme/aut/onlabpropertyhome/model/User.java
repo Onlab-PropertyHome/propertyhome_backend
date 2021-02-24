@@ -31,6 +31,10 @@ public class User {
         this.email = email;
     }
 
+    public User() {
+
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;

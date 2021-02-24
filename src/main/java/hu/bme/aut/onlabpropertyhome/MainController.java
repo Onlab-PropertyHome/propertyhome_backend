@@ -27,6 +27,19 @@ public class MainController {
         return "Saved";
     }
 
+    @PutMapping(path="/edit/{id}", produces = "application/json")
+    public @ResponseBody String editUser (@PathVariable(value = "id") Integer id,
+                                          @RequestBody User user) {
+
+        User old_user = userRepository.findById(id).get();
+        old_user.setName(user.getName());
+        old_user.setEmail(user.getEmail());
+
+        userRepository.save(old_user);
+
+        return "Updated";
+    }
+
     @GetMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users

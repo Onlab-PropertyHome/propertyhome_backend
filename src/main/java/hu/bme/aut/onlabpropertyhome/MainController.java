@@ -1,6 +1,7 @@
 package hu.bme.aut.onlabpropertyhome;
 
 import hu.bme.aut.onlabpropertyhome.model.User;
+import hu.bme.aut.onlabpropertyhome.model.UserDTO;
 import hu.bme.aut.onlabpropertyhome.model.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,17 +28,29 @@ public class MainController {
         return "Saved";
     }
 
+    @PostMapping(path="/register", produces = "application/json")
+    public @ResponseBody String registerUser (@RequestBody UserDTO userDTO) {
+        User user = new User();
+        user.setName(userDTO.getName());
+        user.setEmail(userDTO.getEmail());
+        userRepository.save(user);
+        return "Saved";
+    }
+
     @PutMapping(path="/edit/{id}", produces = "application/json")
     public @ResponseBody String editUser (@PathVariable(value = "id") Integer id,
                                           @RequestBody User user) {
+        if (userRepository.findById(id).isPresent()) {
+            User old_user = userRepository.findById(id).get();
+            old_user.setName(user.getName());
+            old_user.setEmail(user.getEmail());
 
-        User old_user = userRepository.findById(id).get();
-        old_user.setName(user.getName());
-        old_user.setEmail(user.getEmail());
+            userRepository.save(old_user);
 
-        userRepository.save(old_user);
+            return "Updated";
+        }
 
-        return "Updated";
+        return "Something went wrong";
     }
 
     @GetMapping(path="/all")

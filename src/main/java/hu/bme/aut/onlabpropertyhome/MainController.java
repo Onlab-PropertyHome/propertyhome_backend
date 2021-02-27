@@ -53,6 +53,13 @@ public class MainController {
         return "Something went wrong";
     }
 
+    @DeleteMapping(path="/deleteAllUser")
+    public @ResponseBody String deleteAllUser() {
+        userRepository.deleteAll();
+
+        return "Users are deleted";
+    }
+
     @GetMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUsers() {
         // This returns a JSON or XML with the users

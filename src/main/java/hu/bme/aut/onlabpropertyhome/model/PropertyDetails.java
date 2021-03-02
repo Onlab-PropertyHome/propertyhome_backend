@@ -1,31 +1,13 @@
 package hu.bme.aut.onlabpropertyhome.model;
 
-import javax.persistence.*;
-
-@Entity
-public class Property {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "ad_id")
-    private Ad ad;
-
+public class PropertyDetails {
     private Integer roomNumber;
     private String type;
     private String state;
     private Integer size;
 
-    public Property() { }
+    public PropertyDetails() { }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public void setAd(Ad ad) {
-        this.ad = ad;
-    }
     public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;
     }
@@ -39,12 +21,6 @@ public class Property {
         this.size = size;
     }
 
-    public Integer getId() {
-        return this.id;
-    }
-    public Ad getAd() {
-        return this.ad;
-    }
     public Integer getRoomNumber() {
         return this.roomNumber;
     }

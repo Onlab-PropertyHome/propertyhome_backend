@@ -1,37 +1,13 @@
 package hu.bme.aut.onlabpropertyhome.model;
 
-import javax.persistence.*;
-
-@Entity
-public class Ad {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
-    @ManyToOne()
-    @JoinColumn(name="user_id", referencedColumnName = "user_id")
-    private User user;
-
-    @PrimaryKeyJoinColumn
-    @OneToOne
-    private Property property;
-
+public class AdDetails {
     private String picture;
     private String price;
     private String location;
     private String details;
 
-    public Ad() { }
+    public AdDetails() { }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public void setUser(User u) {
-        this.user = u;
-    }
-    public void setProperty(Property p) {
-        this.property = p;
-    }
     public void setPicture(String picture) {
         this.picture = picture;
     }
@@ -45,15 +21,6 @@ public class Ad {
         this.details = details;
     }
 
-    public Integer getId() {
-        return this.id;
-    }
-    public User getUser() {
-        return this.user;
-    }
-    public Property getProperty() {
-        return property;
-    }
     public String getPicture() {
         return this.picture;
     }

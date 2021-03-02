@@ -1,5 +1,8 @@
 package hu.bme.aut.onlabpropertyhome.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +13,7 @@ public class Ad {
 
     @ManyToOne()
     @JoinColumn(name="user_id", referencedColumnName = "user_id")
+    @JsonIgnore
     private User user;
 
     @PrimaryKeyJoinColumn

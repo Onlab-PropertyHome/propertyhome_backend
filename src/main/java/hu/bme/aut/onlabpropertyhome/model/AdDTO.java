@@ -1,12 +1,12 @@
 package hu.bme.aut.onlabpropertyhome.model;
 
-public class AdDetails {
+public class AdDTO {
     private String picture;
     private String price;
     private String location;
     private String details;
 
-    public AdDetails() { }
+    public AdDTO() { }
 
     public void setPicture(String picture) {
         this.picture = picture;

@@ -1,12 +1,12 @@
 package hu.bme.aut.onlabpropertyhome.model;
 
-public class UserDetails {
+public class UserDTO {
     private String name;
     private String email;
     private String password;
     private String tel;
 
-    public UserDetails() { }
+    public UserDTO() { }
 
     public void setName(String name) {
         this.name = name;

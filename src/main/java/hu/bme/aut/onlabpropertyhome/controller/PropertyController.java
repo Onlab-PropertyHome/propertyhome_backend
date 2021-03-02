@@ -27,13 +27,13 @@ public class PropertyController {
     }
 
     @PutMapping(path="/editProperty/{id}")
-    public @ResponseBody String editProperty(@PathVariable(value = "id") Integer id, PropertyDetails propertyDetails) {
+    public @ResponseBody String editProperty(@PathVariable(value = "id") Integer id, PropertyDTO propertyDTO) {
         if (propertyRepository.findById(id).isPresent()) {
             Property old_property = propertyRepository.findById(id).get();
-            old_property.setType(propertyDetails.getType());
-            old_property.setState(propertyDetails.getState());
-            old_property.setSize(propertyDetails.getSize());
-            old_property.setRoomNumber(propertyDetails.getRoomNumber());
+            old_property.setType(propertyDTO.getType());
+            old_property.setState(propertyDTO.getState());
+            old_property.setSize(propertyDTO.getSize());
+            old_property.setRoomNumber(propertyDTO.getRoomNumber());
 
             propertyRepository.save(old_property);
 

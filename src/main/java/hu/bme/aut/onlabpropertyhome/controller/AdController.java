@@ -5,13 +5,11 @@ import hu.bme.aut.onlabpropertyhome.repository.AdRepository;
 import hu.bme.aut.onlabpropertyhome.repository.PropertyRepository;
 import hu.bme.aut.onlabpropertyhome.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@Controller
-@CrossOrigin
+@RestController
 @RequestMapping
 public class AdController {
     @Autowired
@@ -23,31 +21,32 @@ public class AdController {
 
     @PostMapping(path="/addAd")
     public @ResponseBody String addAd (@RequestParam Integer id,
-                                       @RequestBody AdDetails adDetails,
-                                       @RequestBody PropertyDetails propertyDetails) {
+                                       @RequestBody PropertyAd propertyAd) {
         if (userRepository.findById(id).isPresent()) {
             User user = userRepository.findById(id).get();
 
             Ad ad = new Ad();
-            ad.setDetails(adDetails.getDetails());
-            ad.setLocation(adDetails.getLocation());
-            ad.setPicture(adDetails.getPicture());
-            ad.setPrice(adDetails.getPrice());
+            ad.setDetails(propertyAd.getAdDetails().getDetails());
+            ad.setLocation(propertyAd.getAdDetails().getLocation());
+            ad.setPicture(propertyAd.getAdDetails().getPicture());
+            ad.setPrice(propertyAd.getAdDetails().getPrice());
             ad.setUser(user);
 
             Property property = new Property();
-            property.setRoomNumber(propertyDetails.getRoomNumber());
-            property.setSize(propertyDetails.getSize());
-            property.setState(propertyDetails.getState());
-            property.setType(propertyDetails.getType());
+            property.setRoomNumber(propertyAd.getPropertyDetails().getRoomNumber());
+            property.setSize(propertyAd.getPropertyDetails().getSize());
+            property.setState(propertyAd.getPropertyDetails().getState());
+            property.setType(propertyAd.getPropertyDetails().getType());
             property.setAd(ad);
 
             ad.setProperty(property);
             user.addAd(ad);
 
-            userRepository.save(user);
-            adRepository.save(ad);
             propertyRepository.save(property);
+            adRepository.save(ad);
+            userRepository.save(user);
+
+            return "done";
         }
 
         return "err";
@@ -65,13 +64,13 @@ public class AdController {
     }
 
     @PutMapping(path="/editAd/{id}")
-    public @ResponseBody String editAd(@PathVariable(value = "id") Integer id, AdDetails adDetails) {
+    public @ResponseBody String editAd(@PathVariable(value = "id") Integer id, AdDTO adDTO) {
         if (adRepository.findById(id).isPresent()) {
             Ad old_ad = adRepository.findById(id).get();
-            old_ad.setPicture(adDetails.getPicture());
-            old_ad.setPrice(adDetails.getPrice());
-            old_ad.setDetails(adDetails.getDetails());
-            old_ad.setLocation(adDetails.getLocation());
+            old_ad.setPicture(adDTO.getPicture());
+            old_ad.setPrice(adDTO.getPrice());
+            old_ad.setDetails(adDTO.getDetails());
+            old_ad.setLocation(adDTO.getLocation());
 
             adRepository.save(old_ad);
 

@@ -1,7 +1,7 @@
 package hu.bme.aut.onlabpropertyhome.controller;
 
 import hu.bme.aut.onlabpropertyhome.model.User;
-import hu.bme.aut.onlabpropertyhome.model.UserDetails;
+import hu.bme.aut.onlabpropertyhome.model.UserDTO;
 import hu.bme.aut.onlabpropertyhome.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,13 +29,15 @@ public class UserController {
     }
 
     @PostMapping(path="/register", produces = "application/json")
-    public @ResponseBody String registerUser (@RequestBody UserDetails userDetails) {
-        if (userRepository.findByEmail(userDetails.getEmail()).isPresent())
+    public @ResponseBody String registerUser (@RequestBody UserDTO userDTO) {
+        if (userRepository.findByEmail(userDTO.getEmail()).isPresent())
             return "err_email_already_in_use";
 
         User user = new User();
-        user.setEmail(userDetails.getEmail());
-        user.setName(userDetails.getName());
+        user.setEmail(userDTO.getEmail());
+        user.setName(userDTO.getName());
+        user.setPassword(userDTO.getPassword());
+        user.setTel(userDTO.getTel());
 
         userRepository.save(user);
 
@@ -43,13 +45,13 @@ public class UserController {
     }
 
     @PutMapping(path="/edit")
-    public @ResponseBody String editUserByEmail (@RequestBody UserDetails userDetails) {
-        if (userRepository.findByEmail(userDetails.getEmail()).isPresent()) {
-            User old_user = userRepository.findByEmail(userDetails.getEmail()).get();
-            old_user.setName(userDetails.getName());
-            old_user.setEmail(userDetails.getEmail());
-            old_user.setPassword(userDetails.getPassword());
-            old_user.setTel(userDetails.getTel());
+    public @ResponseBody String editUserByEmail (@RequestBody UserDTO userDTO) {
+        if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+            User old_user = userRepository.findByEmail(userDTO.getEmail()).get();
+            old_user.setName(userDTO.getName());
+            old_user.setEmail(userDTO.getEmail());
+            old_user.setPassword(userDTO.getPassword());
+            old_user.setTel(userDTO.getTel());
 
             userRepository.save(old_user);
 
@@ -96,9 +98,9 @@ public class UserController {
     }
 
     @GetMapping(path="/getUserId")
-    public @ResponseBody String getUserId (@RequestBody UserDetails userDetails) {
-        if (userRepository.findByEmail(userDetails.getEmail()).isPresent()) {
-            User user = userRepository.findByEmail(userDetails.getEmail()).get();
+    public @ResponseBody String getUserId (@RequestBody UserDTO userDTO) {
+        if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
+            User user = userRepository.findByEmail(userDTO.getEmail()).get();
             return user.getId().toString();
         }
 

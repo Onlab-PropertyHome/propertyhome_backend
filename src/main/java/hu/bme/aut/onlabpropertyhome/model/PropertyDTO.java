@@ -1,12 +1,12 @@
 package hu.bme.aut.onlabpropertyhome.model;
 
-public class PropertyDetails {
+public class PropertyDTO {
     private Integer roomNumber;
     private String type;
     private String state;
     private Integer size;
 
-    public PropertyDetails() { }
+    public PropertyDTO() { }
 
     public void setRoomNumber(Integer roomNumber) {
         this.roomNumber = roomNumber;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/test")
+@RequestMapping
 public class TestController {
     @Autowired
     private UserRepository userRepository;
@@ -20,13 +20,13 @@ public class TestController {
     private PropertyRepository propertyRepository;
 
 
-    @GetMapping
+    @GetMapping(path="/test")
     public String helloWorld() {
         User nu = new User();
-        nu.setEmail("asd");
-        nu.setName("asdd");
+        nu.setName("Teszt");
         Ad a = new Ad();
         a.setUser(nu);
+        a.setDetails("a");
         nu.addAd(a);
         userRepository.save(nu);
         adRepository.save(a);
@@ -38,6 +38,7 @@ public class TestController {
         propertyRepository.save(p);
         Ad b = new Ad();
         b.setUser(nu);
+        b.setDetails("b");
         userRepository.save(nu);
         adRepository.save(b);
 

@@ -1,5 +1,7 @@
 package hu.bme.aut.onlabpropertyhome.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +13,7 @@ public class Property {
     @OneToOne
     @MapsId
     @JoinColumn(name = "ad_id")
+    @JsonIgnore
     private Ad ad;
 
     private Integer roomNumber;

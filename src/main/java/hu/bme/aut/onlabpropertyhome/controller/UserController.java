@@ -5,12 +5,11 @@ import hu.bme.aut.onlabpropertyhome.model.UserDTO;
 import hu.bme.aut.onlabpropertyhome.model.UserLoginDTO;
 import hu.bme.aut.onlabpropertyhome.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@Controller
+@RestController
 @CrossOrigin
 @RequestMapping
 public class UserController {
@@ -45,7 +44,7 @@ public class UserController {
         return "done";
     }
 
-    @GetMapping(path="/login", produces = "application/json")
+    @PostMapping(path="/login", produces = "application/json")
     public @ResponseBody String loginUser (@RequestBody UserLoginDTO userLoginDTO) {
         if (userRepository.findByEmail(userLoginDTO.getEmail()).isPresent()) {
             User user = userRepository.findByEmail(userLoginDTO.getEmail()).get();

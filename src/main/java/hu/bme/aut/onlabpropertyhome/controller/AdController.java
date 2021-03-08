@@ -7,6 +7,7 @@ import hu.bme.aut.onlabpropertyhome.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -78,5 +79,44 @@ public class AdController {
         }
 
         return "err";
+    }
+
+    @GetMapping(path="/getAds")
+    public @ResponseBody List<Ad> getAds(@RequestBody PropertyAd propertyAd) {
+        List<Ad> list = adRepository.findAll();
+
+        for (Ad a : list) {
+            Property p = a.getProperty();
+
+            if (propertyAd.getPropertyDetails().getRoomNumber() != null &&
+                !p.getRoomNumber().equals(propertyAd.getPropertyDetails().getRoomNumber())) {
+                list.remove(a);
+                if (list.size() == 0)
+                    break;
+                continue;
+            }
+            if (propertyAd.getPropertyDetails().getSize() != null &&
+                !p.getSize().equals(propertyAd.getPropertyDetails().getSize())) {
+                list.remove(a);
+                if (list.size() == 0)
+                    break;
+                continue;
+            }
+            if (propertyAd.getPropertyDetails().getState() != null &&
+                !p.getState().equals(propertyAd.getPropertyDetails().getState())) {
+                list.remove(a);
+                if (list.size() == 0)
+                    break;
+                continue;
+            }
+            if (propertyAd.getPropertyDetails().getType() != null &&
+                !p.getType().equals(propertyAd.getPropertyDetails().getType())) {
+                list.remove(a);
+                if (list.size() == 0)
+                    break;
+            }
+        }
+
+        return list;
     }
 }

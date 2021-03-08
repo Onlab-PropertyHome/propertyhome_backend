@@ -7,6 +7,12 @@ public class UserDTO {
     private String tel;
 
     public UserDTO() { }
+    public UserDTO(User user) {
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.tel = user.getTel();
+    }
 
     public void setName(String name) {
         this.name = name;

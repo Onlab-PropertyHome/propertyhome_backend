@@ -2,6 +2,7 @@ package hu.bme.aut.onlabpropertyhome.controller;
 
 import hu.bme.aut.onlabpropertyhome.model.User;
 import hu.bme.aut.onlabpropertyhome.model.UserDTO;
+import hu.bme.aut.onlabpropertyhome.model.UserLoginDTO;
 import hu.bme.aut.onlabpropertyhome.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,20 @@ public class UserController {
         userRepository.save(user);
 
         return "done";
+    }
+
+    @GetMapping(path="/login", produces = "application/json")
+    public @ResponseBody String loginUser (@RequestBody UserLoginDTO userLoginDTO) {
+        if (userRepository.findByEmail(userLoginDTO.getEmail()).isPresent()) {
+            User user = userRepository.findByEmail(userLoginDTO.getEmail()).get();
+
+            if (user.getPassword().equals(userLoginDTO.getPassword())) {
+                return "token";
+            }
+
+            return "err_wrong_credentials";
+        }
+        return "err_no_account_with_email";
     }
 
     @PutMapping(path="/edit")
@@ -86,10 +101,22 @@ public class UserController {
         return "done";
     }
 
-    @GetMapping(path="/getUser/{id}")
+    @GetMapping(path="/getUser/{id}", produces = "application/json")
     public @ResponseBody
     Optional<User> getUser (@PathVariable(value = "id") Integer id) {
         return userRepository.findById(id);
+    }
+
+    @GetMapping(path="/getUserDTO/{id}", produces = "application/json")
+    public @ResponseBody
+    UserDTO getUserDTO (@PathVariable(value = "id") Integer id) {
+        if (userRepository.findById(id).isPresent()) {
+            User user = userRepository.findById(id).get();
+
+            return new UserDTO(user);
+        }
+
+        return null;
     }
 
     @GetMapping(path="/allUser")

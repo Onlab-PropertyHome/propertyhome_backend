@@ -51,7 +51,7 @@ public class UserController {
             User user = userRepository.findByEmail(userLoginDTO.getEmail()).get();
 
             if (user.getPassword().equals(userLoginDTO.getPassword())) {
-                return "token";
+                return user.getId().toString();
             }
 
             return "err_wrong_credentials";

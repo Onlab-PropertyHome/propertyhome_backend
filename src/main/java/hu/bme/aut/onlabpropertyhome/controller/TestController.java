@@ -24,6 +24,7 @@ public class TestController {
 
     @GetMapping(path="/test")
     public String helloWorld() {
+        /*
         User nu = new User();
         nu.setName("Teszt");
         Ad a = new Ad();
@@ -42,7 +43,22 @@ public class TestController {
         b.setUser(nu);
         b.setDetails("b");
         userRepository.save(nu);
-        adRepository.save(b);
+        adRepository.save(b);*/
+
+        User u = new User();
+        Ad ad = new Ad();
+        adRepository.save(ad);
+        Property property = new Property();
+        property.setAd(ad);
+        propertyRepository.save(property);
+        u.addAd(ad);
+        userRepository.save(u);
+        ad.setUser(u);
+        ad.setProperty(property);
+        adRepository.save(ad);
+        property.setAd(ad);
+        propertyRepository.save(property);
+        userRepository.save(u);
 
         return "Successful Test";
     }

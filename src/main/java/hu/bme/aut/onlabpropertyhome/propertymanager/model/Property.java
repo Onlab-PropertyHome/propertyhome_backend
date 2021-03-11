@@ -8,8 +8,8 @@ import javax.persistence.*;
 @Entity
 public class Property {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @Column(name = "ad_id")
+    private Integer property_id;
 
     @OneToOne
     @MapsId
@@ -24,8 +24,8 @@ public class Property {
 
     public Property() { }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setProperty_id(Integer id) {
+        this.property_id = id;
     }
     public void setAd(Ad ad) {
         this.ad = ad;
@@ -43,8 +43,8 @@ public class Property {
         this.size = size;
     }
 
-    public Integer getId() {
-        return this.id;
+    public Integer getProperty_id() {
+        return this.property_id;
     }
     public Ad getAd() {
         return this.ad;

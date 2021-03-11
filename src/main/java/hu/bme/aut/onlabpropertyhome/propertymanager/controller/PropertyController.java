@@ -18,17 +18,17 @@ public class PropertyController {
     }
 
     @GetMapping("/all")
-    public List<Property> getAllProperty() {
+    public @ResponseBody List<Property> getAllProperty() {
         return propertyService.findAllProperties();
     }
 
     @GetMapping("/{id}")
-    public Property getProperty(@PathVariable(value = "id") Integer id) {
+    public @ResponseBody Property getProperty(@PathVariable(value = "id") Integer id) {
         return propertyService.findPropertyById(id);
     }
 
     @PutMapping("/edit/{id}")
-    public Property editProperty(@PathVariable(value = "id") Integer id,
+    public @ResponseBody Property editProperty(@PathVariable(value = "id") Integer id,
                                  @RequestParam Integer roomNumber, @RequestParam String type,
                                  @RequestParam String state, @RequestParam Integer size) {
         return propertyService.editProperty(id, roomNumber, type, state, size);

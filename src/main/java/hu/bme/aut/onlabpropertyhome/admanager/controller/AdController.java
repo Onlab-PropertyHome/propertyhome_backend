@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/ad")
+@RequestMapping
 public class AdController {
     private final AdService adService;
 
@@ -17,29 +17,36 @@ public class AdController {
         this.adService = adService;
     }
 
-    @GetMapping("/all")
-    public List<Ad> findAllAds() {
+    @GetMapping("/ad/all")
+    public @ResponseBody List<Ad> findAllAds() {
         return adService.findAllAds();
     }
 
-    @GetMapping("/{id}")
-    public Ad getAd (@PathVariable(value = "id") Integer id) {
+    @GetMapping("/ad/{id}")
+    public @ResponseBody Ad getAd (@PathVariable(value = "id") Integer id) {
         return adService.findAdById(id);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/ad/delete/{id}")
     public void deleteAd (@PathVariable(value = "id") Integer id) {
         adService.deleteAd(id);
     }
 
-    @PutMapping("/edit/{id}")
-    public Ad editAd (@PathVariable(value = "id") Integer id, @RequestParam String picture, @RequestParam String price,
+    @PutMapping("/ad/edit/{id}")
+    public @ResponseBody Ad editAd (@PathVariable(value = "id") Integer id, @RequestParam String picture, @RequestParam String price,
                       @RequestParam String location, @RequestParam String details) {
         Ad ad = adService.editAd(id, picture, price, location, details);
         if (ad == null)
             throw new AdNotFoundException();
 
         return ad;
+    }
+
+    @PostMapping("/user/{id}/addad")
+    public @ResponseBody Ad addAd (@PathVariable(value = "id") Integer id, @RequestParam String price, @RequestParam String location,
+                     @RequestParam String details, @RequestParam Integer roomNumber, @RequestParam String type,
+                     @RequestParam String state, @RequestParam Integer size) {
+        return adService.addAd(id, price, location, details, roomNumber, type, state, size);
     }
 
     /*

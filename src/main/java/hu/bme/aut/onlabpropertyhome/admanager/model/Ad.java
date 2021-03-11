@@ -10,15 +10,16 @@ import javax.persistence.*;
 public class Ad {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @Column(name = "id")
+    private Integer ad_id;
 
-    @ManyToOne()
+    @ManyToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="user_id", referencedColumnName = "user_id")
     @JsonIgnore
     private User user;
 
+    @OneToOne(mappedBy = "ad", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    @OneToOne
     private Property property;
 
     private String picture;
@@ -28,8 +29,8 @@ public class Ad {
 
     public Ad() { }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setAd_id(Integer id) {
+        this.ad_id = id;
     }
     public void setUser(User u) {
         this.user = u;
@@ -50,8 +51,8 @@ public class Ad {
         this.details = details;
     }
 
-    public Integer getId() {
-        return this.id;
+    public Integer getAd_id() {
+        return this.ad_id;
     }
     public User getUser() {
         return this.user;

@@ -1,5 +1,8 @@
 package hu.bme.aut.onlabpropertyhome.model;
 
+import hu.bme.aut.onlabpropertyhome.admanager.model.AdDTO;
+import hu.bme.aut.onlabpropertyhome.propertymanager.model.PropertyDTO;
+
 public class PropertyAd {
     private AdDTO adDTO;
     private PropertyDTO propertyDTO;

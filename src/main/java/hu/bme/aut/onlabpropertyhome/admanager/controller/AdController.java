@@ -1,26 +1,49 @@
-package hu.bme.aut.onlabpropertyhome.controller;
+package hu.bme.aut.onlabpropertyhome.admanager.controller;
 
-import hu.bme.aut.onlabpropertyhome.model.*;
-import hu.bme.aut.onlabpropertyhome.repository.AdRepository;
-import hu.bme.aut.onlabpropertyhome.repository.PropertyRepository;
-import hu.bme.aut.onlabpropertyhome.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import hu.bme.aut.onlabpropertyhome.admanager.exception.AdNotFoundException;
+import hu.bme.aut.onlabpropertyhome.admanager.model.Ad;
+import hu.bme.aut.onlabpropertyhome.admanager.service.AdService;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping
+@RequestMapping("/ad")
 public class AdController {
-    @Autowired
-    private AdRepository adRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PropertyRepository propertyRepository;
+    private final AdService adService;
 
-    @PostMapping(path="/addAd")
+    public AdController(AdService adService) {
+        this.adService = adService;
+    }
+
+    @GetMapping("/all")
+    public List<Ad> findAllAds() {
+        return adService.findAllAds();
+    }
+
+    @GetMapping("/{id}")
+    public Ad getAd (@PathVariable(value = "id") Integer id) {
+        return adService.findAdById(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteAd (@PathVariable(value = "id") Integer id) {
+        adService.deleteAd(id);
+    }
+
+    @PutMapping("/edit/{id}")
+    public Ad editAd (@PathVariable(value = "id") Integer id, @RequestParam String picture, @RequestParam String price,
+                      @RequestParam String location, @RequestParam String details) {
+        Ad ad = adService.editAd(id, picture, price, location, details);
+        if (ad == null)
+            throw new AdNotFoundException();
+
+        return ad;
+    }
+
+    /*
+    @PostMapping(path="/add")
     public @ResponseBody String addAd (@RequestParam Integer id,
                                        @RequestBody PropertyAd propertyAd) {
         if (userRepository.findById(id).isPresent()) {
@@ -46,34 +69,6 @@ public class AdController {
             propertyRepository.save(property);
             adRepository.save(ad);
             userRepository.save(user);
-
-            return "done";
-        }
-
-        return "err";
-    }
-
-    @GetMapping(path="/allAd")
-    public @ResponseBody Iterable<Ad> getAllAd() {
-        return adRepository.findAll();
-    }
-
-    @GetMapping(path="/getAd/{id}")
-    public @ResponseBody
-    Optional<Ad> getAd(@PathVariable(value = "id") Integer id) {
-        return adRepository.findById(id);
-    }
-
-    @PutMapping(path="/editAd/{id}")
-    public @ResponseBody String editAd(@PathVariable(value = "id") Integer id, AdDTO adDTO) {
-        if (adRepository.findById(id).isPresent()) {
-            Ad old_ad = adRepository.findById(id).get();
-            old_ad.setPicture(adDTO.getPicture());
-            old_ad.setPrice(adDTO.getPrice());
-            old_ad.setDetails(adDTO.getDetails());
-            old_ad.setLocation(adDTO.getLocation());
-
-            adRepository.save(old_ad);
 
             return "done";
         }
@@ -119,4 +114,5 @@ public class AdController {
 
         return list;
     }
+    */
 }

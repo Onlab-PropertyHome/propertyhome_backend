@@ -1,4 +1,4 @@
-package hu.bme.aut.onlabpropertyhome.model;
+package hu.bme.aut.onlabpropertyhome.propertymanager.model;
 
 public class PropertyDTO {
     private Integer roomNumber;

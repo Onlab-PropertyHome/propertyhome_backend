@@ -1,9 +1,11 @@
 package hu.bme.aut.onlabpropertyhome.controller;
 
-import hu.bme.aut.onlabpropertyhome.model.*;
-import hu.bme.aut.onlabpropertyhome.repository.AdRepository;
-import hu.bme.aut.onlabpropertyhome.repository.PropertyRepository;
-import hu.bme.aut.onlabpropertyhome.repository.UserRepository;
+import hu.bme.aut.onlabpropertyhome.propertymanager.model.Property;
+import hu.bme.aut.onlabpropertyhome.usermanager.model.User;
+import hu.bme.aut.onlabpropertyhome.admanager.model.Ad;
+import hu.bme.aut.onlabpropertyhome.admanager.repository.AdRepository;
+import hu.bme.aut.onlabpropertyhome.propertymanager.repository.PropertyRepository;
+import hu.bme.aut.onlabpropertyhome.usermanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

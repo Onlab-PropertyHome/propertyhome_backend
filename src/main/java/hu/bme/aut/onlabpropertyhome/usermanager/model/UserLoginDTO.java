@@ -1,4 +1,4 @@
-package hu.bme.aut.onlabpropertyhome.model;
+package hu.bme.aut.onlabpropertyhome.usermanager.model;
 
 public class UserLoginDTO {
     private String email;

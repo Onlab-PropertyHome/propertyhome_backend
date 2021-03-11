@@ -1,7 +1,8 @@
-package hu.bme.aut.onlabpropertyhome.model;
+package hu.bme.aut.onlabpropertyhome.admanager.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import hu.bme.aut.onlabpropertyhome.usermanager.model.User;
+import hu.bme.aut.onlabpropertyhome.propertymanager.model.Property;
 
 import javax.persistence.*;
 

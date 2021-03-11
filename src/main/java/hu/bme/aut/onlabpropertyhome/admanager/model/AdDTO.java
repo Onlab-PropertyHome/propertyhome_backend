@@ -1,4 +1,4 @@
-package hu.bme.aut.onlabpropertyhome.model;
+package hu.bme.aut.onlabpropertyhome.admanager.model;
 
 public class AdDTO {
     private String picture;

@@ -1,7 +1,6 @@
-package hu.bme.aut.onlabpropertyhome.model;
+package hu.bme.aut.onlabpropertyhome.usermanager.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import hu.bme.aut.onlabpropertyhome.admanager.model.Ad;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ public class User {
     private Integer user_id;
 
     @PrimaryKeyJoinColumn
-    @OneToMany(targetEntity=Ad.class, mappedBy="user",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity= Ad.class, mappedBy="user",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Ad> ads = new ArrayList<>();
 
     private String name;
@@ -23,6 +22,7 @@ public class User {
     private String tel;
 
     public User() { }
+
 
     public void setId(Integer id) {
         this.user_id = id;
@@ -64,4 +64,5 @@ public class User {
     public void clearAds() {
         this.ads.clear();
     }
+
 }

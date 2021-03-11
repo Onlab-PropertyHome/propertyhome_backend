@@ -1,6 +1,6 @@
-package hu.bme.aut.onlabpropertyhome.repository;
+package hu.bme.aut.onlabpropertyhome.usermanager.repository;
 
-import hu.bme.aut.onlabpropertyhome.model.User;
+import hu.bme.aut.onlabpropertyhome.usermanager.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

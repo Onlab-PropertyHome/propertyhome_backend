@@ -4,6 +4,9 @@ import hu.bme.aut.onlabpropertyhome.admanager.exception.AdNotFoundException;
 import hu.bme.aut.onlabpropertyhome.admanager.model.Ad;
 import hu.bme.aut.onlabpropertyhome.admanager.service.AdService;
 
+import hu.bme.aut.onlabpropertyhome.model.PropertyAd;
+import hu.bme.aut.onlabpropertyhome.propertymanager.model.Property;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,98 +31,29 @@ public class AdController {
     }
 
     @DeleteMapping("/ad/delete/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "Ad deleted successfully")
     public void deleteAd (@PathVariable(value = "id") Integer id) {
         adService.deleteAd(id);
     }
 
     @PutMapping("/ad/edit/{id}")
+    @ResponseStatus(value = HttpStatus.OK, reason = "Ad edited successfully")
     public @ResponseBody Ad editAd (@PathVariable(value = "id") Integer id, @RequestParam String picture, @RequestParam String price,
                       @RequestParam String location, @RequestParam String details) {
-        Ad ad = adService.editAd(id, picture, price, location, details);
-        if (ad == null)
-            throw new AdNotFoundException();
-
-        return ad;
+        return adService.editAd(id, picture, price, location, details);
     }
 
     @PostMapping("/user/{id}/addad")
+    @ResponseStatus(value = HttpStatus.CREATED, reason = "Ad added successfully")
     public @ResponseBody Ad addAd (@PathVariable(value = "id") Integer id, @RequestParam String price, @RequestParam String location,
                      @RequestParam String details, @RequestParam Integer roomNumber, @RequestParam String type,
                      @RequestParam String state, @RequestParam Integer size) {
         return adService.addAd(id, price, location, details, roomNumber, type, state, size);
     }
 
-    /*
-    @PostMapping(path="/add")
-    public @ResponseBody String addAd (@RequestParam Integer id,
-                                       @RequestBody PropertyAd propertyAd) {
-        if (userRepository.findById(id).isPresent()) {
-            User user = userRepository.findById(id).get();
-
-            Ad ad = new Ad();
-            ad.setDetails(propertyAd.getAdDetails().getDetails());
-            ad.setLocation(propertyAd.getAdDetails().getLocation());
-            ad.setPicture(propertyAd.getAdDetails().getPicture());
-            ad.setPrice(propertyAd.getAdDetails().getPrice());
-            ad.setUser(user);
-
-            Property property = new Property();
-            property.setRoomNumber(propertyAd.getPropertyDetails().getRoomNumber());
-            property.setSize(propertyAd.getPropertyDetails().getSize());
-            property.setState(propertyAd.getPropertyDetails().getState());
-            property.setType(propertyAd.getPropertyDetails().getType());
-            property.setAd(ad);
-
-            ad.setProperty(property);
-            user.addAd(ad);
-
-            propertyRepository.save(property);
-            adRepository.save(ad);
-            userRepository.save(user);
-
-            return "done";
-        }
-
-        return "err";
+    @GetMapping("/ad/find")
+    public @ResponseBody List<Ad> findAds(@RequestParam Integer roomNumber, @RequestParam String type,
+                                          @RequestParam String state, @RequestParam Integer size) {
+        return adService.findAds(roomNumber, type, state, size);
     }
-
-    @GetMapping(path="/getAds")
-    public @ResponseBody List<Ad> getAds(@RequestBody PropertyAd propertyAd) {
-        List<Ad> list = adRepository.findAll();
-
-        for (Ad a : list) {
-            Property p = a.getProperty();
-
-            if (propertyAd.getPropertyDetails().getRoomNumber() != null &&
-                !p.getRoomNumber().equals(propertyAd.getPropertyDetails().getRoomNumber())) {
-                list.remove(a);
-                if (list.size() == 0)
-                    break;
-                continue;
-            }
-            if (propertyAd.getPropertyDetails().getSize() != null &&
-                !p.getSize().equals(propertyAd.getPropertyDetails().getSize())) {
-                list.remove(a);
-                if (list.size() == 0)
-                    break;
-                continue;
-            }
-            if (propertyAd.getPropertyDetails().getState() != null &&
-                !p.getState().equals(propertyAd.getPropertyDetails().getState())) {
-                list.remove(a);
-                if (list.size() == 0)
-                    break;
-                continue;
-            }
-            if (propertyAd.getPropertyDetails().getType() != null &&
-                !p.getType().equals(propertyAd.getPropertyDetails().getType())) {
-                list.remove(a);
-                if (list.size() == 0)
-                    break;
-            }
-        }
-
-        return list;
-    }
-    */
 }

@@ -1,8 +1,9 @@
 package hu.bme.aut.onlabpropertyhome.usermanager.service;
 
-
-import hu.bme.aut.onlabpropertyhome.usermanager.exception.EmailException;
+import hu.bme.aut.onlabpropertyhome.usermanager.exception.EmailAlreadyInUseException;
+import hu.bme.aut.onlabpropertyhome.usermanager.exception.EmailNotFoundException;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.UserNotFoundException;
+import hu.bme.aut.onlabpropertyhome.usermanager.exception.WrongCredentialsException;
 import hu.bme.aut.onlabpropertyhome.usermanager.model.User;
 import hu.bme.aut.onlabpropertyhome.usermanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import java.util.List;
 @Service
 @Transactional
 public class UserService {
-
     private final UserRepository userRepository;
 
     @Autowired
@@ -22,11 +22,9 @@ public class UserService {
         this.userRepository = u;
     }
 
-
     public User addNewUser(String name, String email) {
-
         if (userRepository.findByEmail(email).isPresent())
-            throw new EmailException();
+            throw new EmailAlreadyInUseException();
 
         User n = new User();
         n.setName(name);
@@ -35,8 +33,7 @@ public class UserService {
         return n;
     }
 
-    public User editUser(Integer id,String name, String email, String password, String tel){
-
+    public User editUser(Integer id,String name, String email, String password, String tel) {
         if (userRepository.findById(id).isPresent()) {
             User old_user = userRepository.findById(id).get();
             old_user.setName(name);
@@ -55,5 +52,33 @@ public class UserService {
 
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public User deleteUser(Integer id) {
+        if (userRepository.findById(id).isPresent()) {
+            userRepository.deleteById(id);
+        }
+
+        throw new UserNotFoundException();
+    }
+
+    public User login(String email, String password) {
+        if (userRepository.findByEmail(email).isPresent()) {
+            User user = userRepository.findByEmail(email).get();
+            if (user.getPassword().equals(password))
+                return user;
+
+            throw new WrongCredentialsException();
+        }
+
+        throw new EmailNotFoundException();
+    }
+
+    public User register(String name, String email, String password, String tel) {
+        if (userRepository.findByEmail(email).isPresent())
+            throw new EmailAlreadyInUseException();
+
+        User user = new User(name, email, password, tel);
+        return userRepository.save(user);
     }
 }

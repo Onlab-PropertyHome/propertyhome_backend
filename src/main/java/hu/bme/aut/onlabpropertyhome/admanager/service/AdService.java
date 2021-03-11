@@ -18,12 +18,6 @@ import java.util.List;
 @Transactional
 public class AdService {
     private final AdRepository adRepository;
-    /*
-    @Autowired
-    private PropertyRepository propertyRepository;
-    @Autowired
-    private UserRepository userRepository;*/
-
     private final PropertyRepository propertyRepository;
     private final UserRepository userRepository;
 
@@ -33,9 +27,6 @@ public class AdService {
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
     }
-
-    // TODO
-    // public Ad addAd(Ad ad) { ... }
 
     public List<Ad> findAllAds() {
         List<Ad> ads = adRepository.findAll();
@@ -64,7 +55,7 @@ public class AdService {
             return adRepository.save(old_ad);
         }
 
-        return null;
+        throw new AdNotFoundException();
     }
 
     public Ad addAd(Integer id, String price, String location, String details, Integer roomNumber, String type, String state, Integer size) {
@@ -74,7 +65,7 @@ public class AdService {
             Ad ad = new Ad();
             ad.setDetails(details);
             ad.setLocation(location);
-            // TODO
+            // TODO: with AWS
             //ad.setPicture( ... );
             ad.setPrice(price);
             ad.setUser(user);
@@ -98,5 +89,42 @@ public class AdService {
         }
 
         throw new UserNotFoundException();
+    }
+
+    public List<Ad> findAds(Integer roomNumber, String type, String state, Integer size) {
+        List<Ad> list = adRepository.findAll();
+
+        for (Ad a : list) {
+            Property p = a.getProperty();
+
+            if (roomNumber != null && !p.getRoomNumber().equals(roomNumber)) {
+                list.remove(a);
+                if (list.size() == 0)
+                    break;
+                continue;
+            }
+            if (size != null && !p.getSize().equals(size)) {
+                list.remove(a);
+                if (list.size() == 0)
+                    break;
+                continue;
+            }
+            if (state != null && !p.getState().equals(state)) {
+                list.remove(a);
+                if (list.size() == 0)
+                    break;
+                continue;
+            }
+            if (type != null && !p.getType().equals(type)) {
+                list.remove(a);
+                if (list.size() == 0)
+                    break;
+            }
+        }
+
+        if (list.isEmpty())
+            throw new AdNotFoundException();
+
+        return list;
     }
 }

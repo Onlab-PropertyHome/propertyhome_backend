@@ -2,6 +2,7 @@ package hu.bme.aut.onlabpropertyhome.propertymanager.controller;
 
 import hu.bme.aut.onlabpropertyhome.propertymanager.model.Property;
 import hu.bme.aut.onlabpropertyhome.propertymanager.service.PropertyService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ public class PropertyController {
     }
 
     @PutMapping("/edit/{id}")
+    @ResponseStatus(value = HttpStatus.OK, reason = "Property updated successfully")
     public @ResponseBody Property editProperty(@PathVariable(value = "id") Integer id,
                                  @RequestParam Integer roomNumber, @RequestParam String type,
                                  @RequestParam String state, @RequestParam Integer size) {
@@ -35,6 +37,7 @@ public class PropertyController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @ResponseStatus(value = HttpStatus.NO_CONTENT, reason = "Property deleted successfully")
     public void deleteProperty(@PathVariable(value = "id") Integer id) {
         propertyService.deleteProperty(id);
     }

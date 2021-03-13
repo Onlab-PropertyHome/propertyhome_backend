@@ -10,7 +10,7 @@ import java.util.List;
 
 @Controller
 @CrossOrigin
-@RequestMapping("/property")
+@RequestMapping("/api/property")
 public class PropertyController {
     private final PropertyService propertyService;
 

@@ -1,11 +1,8 @@
 package hu.bme.aut.onlabpropertyhome.admanager.controller;
 
-import hu.bme.aut.onlabpropertyhome.admanager.exception.AdNotFoundException;
 import hu.bme.aut.onlabpropertyhome.admanager.model.Ad;
 import hu.bme.aut.onlabpropertyhome.admanager.service.AdService;
 
-import hu.bme.aut.onlabpropertyhome.model.PropertyAd;
-import hu.bme.aut.onlabpropertyhome.propertymanager.model.Property;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

@@ -3,14 +3,12 @@ package hu.bme.aut.onlabpropertyhome.usermanager.service;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.EmailAlreadyInUseException;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.EmailNotFoundException;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.WrongCredentialsException;
-import hu.bme.aut.onlabpropertyhome.usermanager.model.LoginResponse;
+import hu.bme.aut.onlabpropertyhome.usermanager.model.AuthResponse;
 import hu.bme.aut.onlabpropertyhome.usermanager.model.User;
 import hu.bme.aut.onlabpropertyhome.usermanager.repository.UserRepository;
 import hu.bme.aut.onlabpropertyhome.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,7 +40,8 @@ public class UserDetailsService implements org.springframework.security.core.use
     }
 
     // login
-    public LoginResponse createToken(String email, String password) throws Exception {
+    public AuthResponse login(String email, String password) throws Exception {
+        /*
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -52,16 +51,17 @@ public class UserDetailsService implements org.springframework.security.core.use
         }
         catch (BadCredentialsException e) {
             throw new Exception("Incorrect email or password", e);
-        }
+        }*/
 
         if (userRepository.findByEmail(email).isPresent()) {
             User user = userRepository.findByEmail(email).get();
 
             if (bcryptEncoder.matches(password, user.getPassword())) {
+                // generating token
                 final UserDetails userDetails = loadUserByUsername(email);
                 final String jwt = jwtTokenUtil.generateToken(userDetails, user);
 
-                return new LoginResponse(jwt);
+                return new AuthResponse(jwt);
             }
 
             throw new WrongCredentialsException();
@@ -71,7 +71,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     }
 
     // register
-    public LoginResponse register(String name, String email, String password, String tel) {
+    public AuthResponse register(String name, String email, String password, String tel) {
         if (userRepository.findByEmail(email).isPresent())
             throw new EmailAlreadyInUseException();
 
@@ -79,14 +79,16 @@ public class UserDetailsService implements org.springframework.security.core.use
 
         user.setName(name);
         user.setEmail(email);
+        // encoding the password
         user.setPassword(bcryptEncoder.encode(password));
         user.setTel(tel);
 
         User registered = userRepository.save(user);
 
+        // generating token
         final UserDetails userDetails = loadUserByUsername(email);
         final String jwt = jwtTokenUtil.generateToken(userDetails, registered);
 
-        return new LoginResponse(jwt);
+        return new AuthResponse(jwt);
     }
 }

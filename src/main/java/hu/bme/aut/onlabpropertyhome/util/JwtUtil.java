@@ -15,7 +15,9 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
 
+    // secret key - end of the token
     private String SECRET_KEY = "Bernat token"; // default: secret
+
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

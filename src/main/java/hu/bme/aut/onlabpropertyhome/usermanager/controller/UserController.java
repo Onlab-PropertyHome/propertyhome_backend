@@ -23,14 +23,6 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    @PostMapping("/add")
-    @ResponseStatus(value = HttpStatus.CREATED, reason = "User added successfully")
-    public @ResponseBody User addNewUser(@RequestParam String name, @RequestParam String email) {
-        return  userService.addNewUser(name,email);
-    }
-
-
-
     @PutMapping(path = "edit/{id}", produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK, reason = "User updated successfully")
     public @ResponseBody User editUser (@PathVariable(value = "id") Integer id,
@@ -47,17 +39,5 @@ public class UserController {
     @GetMapping("/all") // ide nem kell exception, majd kliens oldalon megnézzük h üres-e ami jön.
     public @ResponseBody List<User> getAllUser() {
         return userService.findAll();
-    }
-
-    @GetMapping("/login")
-    public @ResponseBody User login (@RequestParam String email, @RequestParam String password) {
-        return userService.login(email, password);
-    }
-
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public @ResponseBody User register (@RequestParam String name, @RequestParam String email,
-                                        @RequestParam String password, @RequestParam String tel) {
-        return userService.register(name, email, password, tel);
     }
 }

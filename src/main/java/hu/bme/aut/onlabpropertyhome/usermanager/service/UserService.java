@@ -28,15 +28,15 @@ public class  UserService {
         if (userRepository.findById(id).isPresent()) {
 
             User old_user = userRepository.findById(id).get();
-            if(name != null)
+            if(name != null && !name.equals(""))
                 old_user.setName(name);
 
-            if(email != null)
+            if(email != null && !email.equals(""))
             old_user.setEmail(email);
             // encoding the password
-            if(password != null)
+            if(password != null && !password.equals(""))
             old_user.setPassword(bcryptEncoder.encode(password));
-            if(tel != null)
+            if(tel != null && !tel.equals(""))
             old_user.setTel(tel);
 
             return userRepository.save(old_user);

@@ -49,11 +49,11 @@ public class AdService {
             Ad old_ad = adRepository.findById(id).get();
 
             old_ad.setPicture(picture);
-            if(price != null)
+            if(price != null && !price.equals(""))
             old_ad.setPrice(price);
-            if (location != null)
+            if (location != null && !location.equals(""))
             old_ad.setLocation(location);
-            if(details != null)
+            if(details != null && !details.equals(""))
             old_ad.setDetails(details);
 
             return adRepository.save(old_ad);

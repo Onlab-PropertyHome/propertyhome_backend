@@ -32,9 +32,9 @@ public class PropertyService {
     public Property editProperty(Integer id, Integer roomNumber, String type, String state, Integer size) {
         if (propertyRepository.findById(id).isPresent()) {
             Property old_property = propertyRepository.findById(id).get();
-            if(type != null)
+            if(type != null && !type.equals(""))
             old_property.setType(type);
-            if(state !=null)
+            if(state !=null && !state.equals(""))
             old_property.setState(state);
             if(size != null)
             old_property.setSize(size);

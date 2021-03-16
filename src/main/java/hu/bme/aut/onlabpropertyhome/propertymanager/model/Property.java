@@ -18,9 +18,11 @@ public class Property {
     private Ad ad;
 
     private Integer roomNumber;
-    private String type;
-    private String state;
     private Integer size;
+
+    private String type; // tégla?? beton fa
+    private String state;  // omladozik frissen epült
+
 
     public Property() { }
 

@@ -47,9 +47,13 @@ public class AdService {
     public Ad editAd(Integer id, String picture, String price, String location, String details) {
         if (adRepository.findById(id).isPresent()) {
             Ad old_ad = adRepository.findById(id).get();
+
             old_ad.setPicture(picture);
+            if(price != null)
             old_ad.setPrice(price);
+            if (location != null)
             old_ad.setLocation(location);
+            if(details != null)
             old_ad.setDetails(details);
 
             return adRepository.save(old_ad);

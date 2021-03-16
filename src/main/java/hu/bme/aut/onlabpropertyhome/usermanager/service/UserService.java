@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserService {
+public class  UserService {
     private final UserRepository userRepository;
 
     // encoder
@@ -26,11 +26,17 @@ public class UserService {
 
     public User editUser(Integer id,String name, String email, String password, String tel) {
         if (userRepository.findById(id).isPresent()) {
+
             User old_user = userRepository.findById(id).get();
-            old_user.setName(name);
+            if(name != null)
+                old_user.setName(name);
+
+            if(email != null)
             old_user.setEmail(email);
             // encoding the password
+            if(password != null)
             old_user.setPassword(bcryptEncoder.encode(password));
+            if(tel != null)
             old_user.setTel(tel);
 
             return userRepository.save(old_user);

@@ -22,7 +22,7 @@ public class Ad {
     @PrimaryKeyJoinColumn
     private Property property;
 
-    private String picture;
+            private String picture;//kép később
     private String price;
     private String location;
     private String details;

@@ -16,7 +16,9 @@ public class User {
     @OneToMany(targetEntity= Ad.class, mappedBy="user",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Ad> ads = new ArrayList<>();
 
+
     private String name;
+
     private String email;
     private String password;
     private String tel;

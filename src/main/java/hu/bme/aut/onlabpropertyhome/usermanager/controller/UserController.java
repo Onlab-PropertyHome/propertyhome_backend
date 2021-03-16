@@ -23,7 +23,7 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-    @PutMapping(path = "edit/{id}", produces = "application/json")
+    @PutMapping(path = "edit/{ id}", produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK, reason = "User updated successfully")
     public @ResponseBody User editUser (@PathVariable(value = "id") Integer id,
                                         @RequestParam String name, @RequestParam String email,

@@ -1,5 +1,6 @@
 package hu.bme.aut.onlabpropertyhome.usermanager.service;
 
+import hu.bme.aut.onlabpropertyhome.usermanager.exception.EmailAlreadyInUseException;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.UserNotFoundException;
 import hu.bme.aut.onlabpropertyhome.usermanager.model.User;
 import hu.bme.aut.onlabpropertyhome.usermanager.repository.UserRepository;
@@ -26,18 +27,20 @@ public class  UserService {
 
     public User editUser(Integer id,String name, String email, String password, String tel) {
         if (userRepository.findById(id).isPresent()) {
+            if (userRepository.findByEmail(email).isPresent())
+                throw new EmailAlreadyInUseException();
 
             User old_user = userRepository.findById(id).get();
-            if(name != null && !name.equals(""))
-                old_user.setName(name);
 
-            if(email != null && !email.equals(""))
-            old_user.setEmail(email);
+            if (name != null && !name.equals(""))
+                old_user.setName(name);
+            if (email != null && !email.equals(""))
+                old_user.setEmail(email);
             // encoding the password
-            if(password != null && !password.equals(""))
-            old_user.setPassword(bcryptEncoder.encode(password));
-            if(tel != null && !tel.equals(""))
-            old_user.setTel(tel);
+            if (password != null && !password.equals(""))
+                old_user.setPassword(bcryptEncoder.encode(password));
+            if (tel != null && !tel.equals(""))
+                old_user.setTel(tel);
 
             return userRepository.save(old_user);
         }

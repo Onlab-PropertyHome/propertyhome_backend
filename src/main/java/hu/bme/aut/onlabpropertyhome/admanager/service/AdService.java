@@ -49,12 +49,12 @@ public class AdService {
             Ad old_ad = adRepository.findById(id).get();
 
             old_ad.setPicture(picture);
-            if(price != null && !price.equals(""))
-            old_ad.setPrice(price);
+            if (price != null && !price.equals(""))
+                old_ad.setPrice(price);
             if (location != null && !location.equals(""))
-            old_ad.setLocation(location);
-            if(details != null && !details.equals(""))
-            old_ad.setDetails(details);
+                old_ad.setLocation(location);
+            if (details != null && !details.equals(""))
+                old_ad.setDetails(details);
 
             return adRepository.save(old_ad);
         }
@@ -113,13 +113,13 @@ public class AdService {
                     break;
                 continue;
             }
-            if (state != null && !p.getState().equals(state)) {
+            if (state != null && !state.equals("") && !p.getState().equals(state)) {
                 list.remove(a);
                 if (list.size() == 0)
                     break;
                 continue;
             }
-            if (type != null && !p.getType().equals(type)) {
+            if (type != null && !type.equals("") && !p.getType().equals(type)) {
                 list.remove(a);
                 if (list.size() == 0)
                     break;

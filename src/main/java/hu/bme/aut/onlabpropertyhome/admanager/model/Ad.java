@@ -13,7 +13,7 @@ public class Ad {
     @Column(name = "id")
     private Integer ad_id;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName = "user_id")
     @JsonIgnore
     private User user;

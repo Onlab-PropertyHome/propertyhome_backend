@@ -105,13 +105,11 @@ public class AdService {
                 list.remove(a);
                 if (list.size() == 0)
                     break;
-                continue;
             }
             if (size != null && p.getSize() < size) {
                 list.remove(a);
                 if (list.size() == 0)
                     break;
-                continue;
             }
             if (price  != null) {
                 int pprice = Integer.parseInt(a.getPrice());
@@ -145,11 +143,10 @@ public class AdService {
                         if((pprice <= 100000))
                             list.remove(a);
                         break;
-                    default:break;
+                    default: break;
                 }
                 if (list.size() == 0)
                     break;
-                continue;
             }
             if (type != null && !p.getType().equals(type)) {
                 list.remove(a);

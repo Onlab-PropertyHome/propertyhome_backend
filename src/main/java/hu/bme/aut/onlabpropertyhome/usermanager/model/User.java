@@ -13,7 +13,7 @@ public class User {
     private Integer user_id;
 
     @PrimaryKeyJoinColumn
-    @OneToMany(targetEntity= Ad.class, mappedBy="user",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity= Ad.class, mappedBy="user", fetch = FetchType.LAZY)
     private List<Ad> ads = new ArrayList<>();
 
 

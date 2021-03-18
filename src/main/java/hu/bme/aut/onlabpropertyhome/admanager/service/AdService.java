@@ -95,7 +95,7 @@ public class AdService {
         throw new UserNotFoundException();
     }
 
-    public List<Ad> findAds(Integer roomNumber, String type, String state, Integer size) {
+    public List<Ad> findAds(Integer roomNumber, String type, Integer size, String price) {
         List<Ad> list = adRepository.findAll();
 
         for (Ad a : list) {
@@ -107,14 +107,46 @@ public class AdService {
                     break;
                 continue;
             }
-            if (size != null && !p.getSize().equals(size)) {
+            if (size != null && p.getSize() < size) {
                 list.remove(a);
                 if (list.size() == 0)
                     break;
                 continue;
             }
-            if (state != null && !p.getState().equals(state)) {
-                list.remove(a);
+            if (price  != null) {
+                int pprice = Integer.parseInt(a.getPrice());
+                switch(price){
+                    case "0-20000":
+                        if(!(pprice >= 0 && pprice <= 20000))
+                            list.remove(a);
+                        break;
+
+                    case "20000-40000":
+                        if(!(pprice >= 20000 && pprice <= 40000))
+                            list.remove(a);
+                        break;
+
+                    case "40000-60000":
+                        if(!(pprice >= 40000 && pprice <= 60000))
+                            list.remove(a);
+                        break;
+
+                    case "60000-80000":
+                        if(!(pprice >= 60000 && pprice <= 80000))
+                            list.remove(a);
+                        break;
+
+                    case "80000-100000":
+                        if(!(pprice >= 80000 && pprice <= 100000))
+                            list.remove(a);
+                        break;
+
+                    case "100000+":
+                        if((pprice <= 100000))
+                            list.remove(a);
+                        break;
+                    default:break;
+                }
                 if (list.size() == 0)
                     break;
                 continue;

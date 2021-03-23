@@ -25,10 +25,10 @@ public class UserController {
 
     @PutMapping(path = "edit/{id}", produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK, reason = "User updated successfully")
-    public @ResponseBody User editUser (@PathVariable(value = "id") Integer id,
-                                        @RequestParam String name, @RequestParam String email,
-                                        @RequestParam String password, @RequestParam String tel) {
-        return userService.editUser(id,name,email,password,tel);
+    public @ResponseBody User editUser (@PathVariable(value = "id") Integer id, @RequestParam String name,
+                                        @RequestParam String email, @RequestParam String password,
+                                        @RequestParam String tel, @RequestParam String picture) {
+        return userService.editUser(id, name, email, password, tel, picture);
     }
 
     @GetMapping(path="/{id}", produces = "application/json")
@@ -39,5 +39,22 @@ public class UserController {
     @GetMapping("/all") // ide nem kell exception, majd kliens oldalon megnézzük h üres-e ami jön.
     public @ResponseBody List<User> getAllUser() {
         return userService.findAll();
+    }
+
+    @GetMapping("/{id}/favorites")
+    public @ResponseBody List<Integer> getFavAds(@PathVariable(value = "id") Integer id) {
+        return userService.getFavAds(id);
+    }
+
+    @PutMapping("/{id}/favorites/add")
+    @ResponseStatus(value = HttpStatus.OK, reason = "Ad added to favorites successfully")
+    public @ResponseBody User addAdToFav(@PathVariable(value = "id") Integer id, @RequestParam Integer ad_id) {
+        return userService.addAdToFav(id, ad_id);
+    }
+
+    @PutMapping("/{id}/favorites/delete")
+    @ResponseStatus(value = HttpStatus.OK, reason = "Ad removed from the favorites successfully")
+    public @ResponseBody User deleteAdFromFav(@PathVariable(value = "id") Integer id, @RequestParam Integer ad_id) {
+        return userService.deleteAdFromFav(id, ad_id);
     }
 }

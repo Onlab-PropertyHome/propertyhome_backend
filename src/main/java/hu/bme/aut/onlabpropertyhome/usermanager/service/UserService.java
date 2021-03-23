@@ -1,5 +1,9 @@
 package hu.bme.aut.onlabpropertyhome.usermanager.service;
 
+import hu.bme.aut.onlabpropertyhome.admanager.exception.AdNotFoundException;
+import hu.bme.aut.onlabpropertyhome.admanager.model.Ad;
+import hu.bme.aut.onlabpropertyhome.usermanager.exception.AdAlreadyInAdsException;
+import hu.bme.aut.onlabpropertyhome.usermanager.exception.AdAlreadyInFavsException;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.EmailAlreadyInUseException;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.UserNotFoundException;
 import hu.bme.aut.onlabpropertyhome.usermanager.model.User;
@@ -25,7 +29,7 @@ public class  UserService {
         this.userRepository = u;
     }
 
-    public User editUser(Integer id,String name, String email, String password, String tel) {
+    public User editUser(Integer id,String name, String email, String password, String tel, String picture) {
         if (userRepository.findById(id).isPresent()) {
             if (userRepository.findByEmail(email).isPresent())
                 throw new EmailAlreadyInUseException();
@@ -41,6 +45,8 @@ public class  UserService {
                 old_user.setPassword(bcryptEncoder.encode(password));
             if (tel != null && !tel.equals(""))
                 old_user.setTel(tel);
+            if (picture != null && !picture.equals(""))
+                old_user.setPicture(picture);
 
             return userRepository.save(old_user);
         }
@@ -59,6 +65,52 @@ public class  UserService {
         if (userRepository.findById(id).isPresent()) {
             userRepository.deleteById(id);
             return;
+        }
+
+        throw new UserNotFoundException();
+    }
+
+    public List<Integer> getFavAds(Integer id) {
+        if (userRepository.findById(id).isPresent()) {
+            User user = userRepository.findById(id).get();
+            return user.getFavAds();
+        }
+
+        throw new UserNotFoundException();
+    }
+
+    public User addAdToFav(Integer id, Integer ad_id) {
+        if (userRepository.findById(id).isPresent()) {
+            User user = userRepository.findById(id).get();
+            List<Integer> favAds = user.getFavAds();
+
+            if (favAds.contains(ad_id))
+                throw new AdAlreadyInFavsException();
+
+            List<Ad> ads = user.getAds();
+            for (Ad ad : ads) {
+                if (ad.getAd_id().equals(ad_id))
+                    throw new AdAlreadyInAdsException();
+            }
+
+            user.addAdToFav(ad_id);
+            return userRepository.save(user);
+        }
+
+        throw new UserNotFoundException();
+    }
+
+    public User deleteAdFromFav(Integer id, Integer ad_id) {
+        if (userRepository.findById(id).isPresent()) {
+            User user = userRepository.findById(id).get();
+
+            List<Integer> fav_ads = user.getFavAds();
+            if (fav_ads.contains(ad_id)) {
+                user.removeAdFromFav(ad_id);
+                return userRepository.save(user);
+            }
+
+            throw new AdNotFoundException();
         }
 
         throw new UserNotFoundException();

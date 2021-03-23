@@ -16,19 +16,23 @@ public class User {
     @OneToMany(targetEntity= Ad.class, mappedBy="user", fetch = FetchType.LAZY)
     private List<Ad> ads = new ArrayList<>();
 
+    @ElementCollection
+    private List<Integer> favAds = new ArrayList<>();
 
     private String name;
 
     private String email;
     private String password;
     private String tel;
+    private String picture;
 
     public User() { }
-    public User(String name, String email, String password, String tel) {
+    public User(String name, String email, String password, String tel, String picture) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.tel = tel;
+        this.picture = picture;
     }
 
 
@@ -37,6 +41,9 @@ public class User {
     }
     public void setAds(List<Ad> ads) {
         this.ads = ads;
+    }
+    public void setFavAds(List<Integer> fav_ads) {
+        this.favAds = fav_ads;
     }
     public void setName(String name) {
         this.name = name;
@@ -48,12 +55,18 @@ public class User {
     public void setTel(String tel) {
         this.tel = tel;
     }
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public Integer getId() {
         return user_id;
     }
     public List<Ad> getAds() {
         return this.ads;
+    }
+    public List<Integer> getFavAds() {
+        return this.favAds;
     }
     public String getName() {
         return name;
@@ -65,6 +78,9 @@ public class User {
     public String getTel() {
         return this.tel;
     }
+    public String getPicture() {
+        return picture;
+    }
 
     public void addAd(Ad ad) {
         this.ads.add(ad);
@@ -72,5 +88,13 @@ public class User {
     public void clearAds() {
         this.ads.clear();
     }
-
+    public void addAdToFav(Integer id) {
+        this.favAds.add(id);
+    }
+    public void removeAdFromFav(Integer id) {
+        this.favAds.remove(id);
+    }
+    public void clearFavAds() {
+        this.favAds.clear();
+    }
 }

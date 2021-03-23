@@ -62,15 +62,14 @@ public class AdService {
         throw new AdNotFoundException();
     }
 
-    public Ad addAd(Integer id, String price, String location, String details, Integer roomNumber, String type, String state, Integer size) {
+    public Ad addAd(Integer id, String price, String location, String details, Integer roomNumber, String type, String state, Integer size, String picture) {
         if (userRepository.findById(id).isPresent()) {
             User user = userRepository.findById(id).get();
 
             Ad ad = new Ad();
             ad.setDetails(details);
             ad.setLocation(location);
-            // TODO: with AWS
-            //ad.setPicture( ... );
+            ad.setPicture(picture);
             ad.setPrice(price);
             ad.setUser(user);
 

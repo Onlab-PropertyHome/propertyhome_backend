@@ -44,8 +44,8 @@ public class AdController {
     @ResponseStatus(value = HttpStatus.CREATED, reason = "Ad added successfully")
     public @ResponseBody Ad addAd (@PathVariable(value = "id") Integer id, @RequestParam String price, @RequestParam String location,
                      @RequestParam String details, @RequestParam Integer roomNumber, @RequestParam String type,
-                     @RequestParam String state, @RequestParam Integer size) {
-        return adService.addAd(id, price, location, details, roomNumber, type, state, size);
+                     @RequestParam String state, @RequestParam Integer size, @RequestParam String picture) {
+        return adService.addAd(id, price, location, details, roomNumber, type, state, size, picture);
     }
 
     @GetMapping("/ad/find")

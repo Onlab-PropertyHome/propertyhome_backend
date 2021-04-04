@@ -62,7 +62,7 @@ public class AdService {
         throw new AdNotFoundException();
     }
 
-    public Ad addAd(Integer id, String price, String location, String details, Integer roomNumber, String type, String state, Integer size, String picture) {
+    public Ad addAd(Integer id, String price, String location, String details, Integer roomNumber, String type, String state, Integer size, String picture, Double lat, Double lng) {
         if (userRepository.findById(id).isPresent()) {
             User user = userRepository.findById(id).get();
 
@@ -78,6 +78,8 @@ public class AdService {
             property.setSize(size);
             property.setState(state);
             property.setType(type);
+            property.setLat(lat);
+            property.setLng(lng);
             property.setAd(ad);
 
             ad.setProperty(property);

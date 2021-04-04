@@ -24,6 +24,28 @@ public class Property {
     private String state;  // omladozik frissen epült
 
 
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
+    }
+    private Double lat;
+    private Double lng;
+
+
+
+
+
     public Property() { }
 
     public void setProperty_id(Integer id) {

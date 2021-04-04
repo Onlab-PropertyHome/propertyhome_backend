@@ -2,6 +2,7 @@ package hu.bme.aut.onlabpropertyhome.usermanager.service;
 
 import hu.bme.aut.onlabpropertyhome.admanager.exception.AdNotFoundException;
 import hu.bme.aut.onlabpropertyhome.admanager.model.Ad;
+import hu.bme.aut.onlabpropertyhome.admanager.repository.AdRepository;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.AdAlreadyInAdsException;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.AdAlreadyInFavsException;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.EmailAlreadyInUseException;
@@ -19,14 +20,16 @@ import java.util.List;
 @Transactional
 public class  UserService {
     private final UserRepository userRepository;
+    private final AdRepository adRepository;
 
     // encoder
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
     @Autowired
-    public UserService(UserRepository u){
+    public UserService(UserRepository u, AdRepository adRepository){
         this.userRepository = u;
+        this.adRepository = adRepository;
     }
 
     public User editUser(Integer id,String name, String email, String password, String tel, String picture) {
@@ -63,6 +66,12 @@ public class  UserService {
 
     public void deleteUser(Integer id) {
         if (userRepository.findById(id).isPresent()) {
+            User user = userRepository.findById(id).get();
+            if(!user.getAds().isEmpty()){
+                for(Ad a : user.getAds()){
+                    adRepository.delete(a);
+                }
+            }
             userRepository.deleteById(id);
             return;
         }

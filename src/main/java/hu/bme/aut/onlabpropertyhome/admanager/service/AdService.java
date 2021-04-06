@@ -44,9 +44,10 @@ public class AdService {
         adRepository.deleteById(id);
     }
 
-    public Ad editAd(Integer id, String picture, String price, String location, String details) {
-        if (adRepository.findById(id).isPresent()) {
+    public Ad editAd(Integer id, String price, String location, String details, Integer roomNumber, String type, String state, Integer size, String picture, Double lat, Double lng) {
+        if (adRepository.findById(id).isPresent() && propertyRepository.findById(id).isPresent()) {
             Ad old_ad = adRepository.findById(id).get();
+            Property property = propertyRepository.findById(id).get();
 
             old_ad.setPicture(picture);
             if(price != null && !price.equals(""))
@@ -55,6 +56,16 @@ public class AdService {
             old_ad.setLocation(location);
             if(details != null && !details.equals(""))
             old_ad.setDetails(details);
+
+            property.setRoomNumber(roomNumber);
+            property.setSize(size);
+            property.setState(state);
+            property.setType(type);
+            property.setLat(lat);
+            property.setLng(lng);
+
+            propertyRepository.save(property);
+
 
             return adRepository.save(old_ad);
         }

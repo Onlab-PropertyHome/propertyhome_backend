@@ -35,9 +35,10 @@ public class AdController {
 
     @PutMapping("/ad/edit/{id}")
     @ResponseStatus(value = HttpStatus.OK, reason = "Ad edited successfully")
-    public @ResponseBody Ad editAd (@PathVariable(value = "id") Integer id, @RequestParam String picture, @RequestParam String price,
-                      @RequestParam String location, @RequestParam String details) {
-        return adService.editAd(id, picture, price, location, details);
+    public @ResponseBody Ad editAd (@PathVariable(value = "id") Integer id, @RequestParam String price, @RequestParam String location,
+                                    @RequestParam String details, @RequestParam Integer roomNumber, @RequestParam String type,
+                                    @RequestParam String state, @RequestParam Integer size, @RequestParam String picture, @RequestParam Double lat, @RequestParam Double lng) {
+        return adService.editAd(id, price, location, details, roomNumber, type, state, size, picture, lat, lng);
     }
 
     @PostMapping("/user/{id}/addad")

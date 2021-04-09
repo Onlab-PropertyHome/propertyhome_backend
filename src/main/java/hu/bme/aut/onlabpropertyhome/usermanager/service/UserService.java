@@ -8,6 +8,7 @@ import hu.bme.aut.onlabpropertyhome.usermanager.exception.AdAlreadyInFavsExcepti
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.EmailAlreadyInUseException;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.UserNotFoundException;
 import hu.bme.aut.onlabpropertyhome.usermanager.model.User;
+import hu.bme.aut.onlabpropertyhome.usermanager.model.UserDetails;
 import hu.bme.aut.onlabpropertyhome.usermanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -117,6 +118,26 @@ public class  UserService {
             if (fav_ads.contains(ad_id)) {
                 user.removeAdFromFav(ad_id);
                 return userRepository.save(user);
+            }
+
+            throw new AdNotFoundException();
+        }
+
+        throw new UserNotFoundException();
+    }
+
+    public UserDetails findUserByAdId(Integer ad_id) {
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            List<Ad> ads = user.getAds();
+
+            if (ads.isEmpty())
+                continue;
+
+            for (Ad ad : ads) {
+                if (ad.getAd_id().equals(ad_id))
+                    return new UserDetails(user.getName(), user.getPicture(), user.getTel());
             }
 
             throw new AdNotFoundException();

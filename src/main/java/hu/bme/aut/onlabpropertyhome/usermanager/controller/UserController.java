@@ -1,6 +1,7 @@
 package hu.bme.aut.onlabpropertyhome.usermanager.controller;
 
 import hu.bme.aut.onlabpropertyhome.usermanager.model.User;
+import hu.bme.aut.onlabpropertyhome.usermanager.model.UserDetails;
 import hu.bme.aut.onlabpropertyhome.usermanager.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -56,5 +57,10 @@ public class UserController {
     @ResponseStatus(value = HttpStatus.OK, reason = "Ad removed from the favorites successfully")
     public @ResponseBody User deleteAdFromFav(@PathVariable(value = "id") Integer id, @RequestParam Integer ad_id) {
         return userService.deleteAdFromFav(id, ad_id);
+    }
+
+    @GetMapping("/find")
+    public @ResponseBody UserDetails findUserByAdId(@RequestParam Integer ad_id) {
+        return userService.findUserByAdId(ad_id);
     }
 }

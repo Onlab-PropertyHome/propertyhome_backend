@@ -2,16 +2,15 @@ package hu.bme.aut.onlabpropertyhome.controller;
 
 import hu.bme.aut.onlabpropertyhome.admanager.service.AdService;
 import hu.bme.aut.onlabpropertyhome.propertymanager.model.Property;
+import hu.bme.aut.onlabpropertyhome.usermanager.model.AuthResponse;
 import hu.bme.aut.onlabpropertyhome.usermanager.model.User;
 import hu.bme.aut.onlabpropertyhome.admanager.model.Ad;
 import hu.bme.aut.onlabpropertyhome.admanager.repository.AdRepository;
 import hu.bme.aut.onlabpropertyhome.propertymanager.repository.PropertyRepository;
+import hu.bme.aut.onlabpropertyhome.usermanager.model.UserDetails;
 import hu.bme.aut.onlabpropertyhome.usermanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping
@@ -28,11 +27,8 @@ public class TestController {
 
 
     @PutMapping(path="/edittest")
-    public String test(){
-        adservice.editAd(1,"1111","sztring","ujdetails",999,"ujtype","ujstate",987,"ujpicture",40.0,40.0);
-
-
-
+    public String test() {
+        adservice.editAd(1, "1111", "sztring", "ujdetails", 999, "ujtype", "ujstate", 987, "ujpicture", 40.0, 40.0);
 
         return "je";
     }
@@ -56,5 +52,10 @@ public class TestController {
         userRepository.save(u);
 
         return "Successful Test";
+    }
+
+    @PostMapping(path="/test2")
+    public AuthResponse testBody(@RequestBody UserDetails userDetails) {
+        return new AuthResponse("token");
     }
 }

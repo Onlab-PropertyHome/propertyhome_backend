@@ -151,7 +151,7 @@ public class AdService {
                             list.remove(a);
                         break;
 
-                    case "100000 ":
+                    case "Above100000":
                         if((pprice <= 100000))
                             list.remove(a);
                         break;

@@ -58,4 +58,29 @@ public class TestController {
     public AuthResponse testBody(@RequestBody UserDetails userDetails) {
         return new AuthResponse("token");
     }
+
+    @GetMapping(path="/test3")
+    public String priceTest(@RequestParam String price, @RequestParam String type, @RequestParam Integer roomNumber, @RequestParam Integer size) {
+
+        User u = new User();
+        Ad ad = new Ad();
+        ad.setPrice(price);
+        adRepository.save(ad);
+        Property property = new Property();
+        property.setType(type);
+        property.setSize(size);
+        property.setRoomNumber(roomNumber);
+        property.setAd(ad);
+        propertyRepository.save(property);
+        u.addAd(ad);
+        userRepository.save(u);
+        ad.setUser(u);
+        ad.setProperty(property);
+        adRepository.save(ad);
+        property.setAd(ad);
+        propertyRepository.save(property);
+        userRepository.save(u);
+
+        return "Successful Test";
+    }
 }

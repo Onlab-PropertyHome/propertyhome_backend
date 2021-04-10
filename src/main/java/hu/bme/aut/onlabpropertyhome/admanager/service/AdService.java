@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -109,67 +110,55 @@ public class AdService {
 
     public List<Ad> findAds(Integer roomNumber, String type, Integer size, String price) {
         List<Ad> list = adRepository.findAll();
+        List<Ad> returnList = new ArrayList<>();
 
         for (Ad a : list) {
             Property p = a.getProperty();
 
-            if (roomNumber != null && !p.getRoomNumber().equals(roomNumber)) {
-                list.remove(a);
-                if (list.size() == 0)
-                    break;
-            }
-            if (size != null && p.getSize() < size) {
-                list.remove(a);
-                if (list.size() == 0)
-                    break;
-            }
-            if (price  != null) {
-                int pprice = Integer.parseInt(a.getPrice());
-                switch(price){
-                    case "0-20000":
-                        if(!(pprice >= 0 && pprice <= 20000))
-                            list.remove(a);
-                        break;
+            if (roomNumber == null || p.getRoomNumber().equals(roomNumber)) {
+                if (size == null || p.getSize() < size) {
+                    if (type == null || p.getType().equals(type)) {
+                        if (price != null) {
+                            int pprice = Integer.parseInt(a.getPrice());
 
-                    case "20000-40000":
-                        if(!(pprice >= 20000 && pprice <= 40000))
-                            list.remove(a);
-                        break;
-
-                    case "40000-60000":
-                        if(!(pprice >= 40000 && pprice <= 60000))
-                            list.remove(a);
-                        break;
-
-                    case "60000-80000":
-                        if(!(pprice >= 60000 && pprice <= 80000))
-                            list.remove(a);
-                        break;
-
-                    case "80000-100000":
-                        if(!(pprice >= 80000 && pprice <= 100000))
-                            list.remove(a);
-                        break;
-
-                    case "Above100000":
-                        if((pprice <= 100000))
-                            list.remove(a);
-                        break;
-                    default: break;
+                            switch (price) {
+                                case "0-20000":
+                                    if (pprice >= 0 && pprice < 20000)
+                                        returnList.add(a);
+                                    break;
+                                case "20000-40000":
+                                    if (pprice >= 20000 && pprice < 40000)
+                                        returnList.add(a);
+                                    break;
+                                case "40000-60000":
+                                    if (pprice >= 40000 && pprice < 60000)
+                                        returnList.add(a);
+                                    break;
+                                case "60000-80000":
+                                    if (pprice >= 60000 && pprice < 80000)
+                                        returnList.add(a);
+                                    break;
+                                case "80000-100000":
+                                    if (pprice >= 80000 && pprice < 100000)
+                                        returnList.add(a);
+                                    break;
+                                case "Above100000":
+                                    if (pprice >= 100000)
+                                        returnList.add(a);
+                                    break;
+                            }
+                        }
+                        else {
+                            returnList.add(a);
+                        }
+                    }
                 }
-                if (list.size() == 0)
-                    break;
-            }
-            if (type != null && !p.getType().equals(type)) {
-                list.remove(a);
-                if (list.size() == 0)
-                    break;
             }
         }
 
-        if (list.isEmpty())
+        if (returnList.isEmpty())
             throw new AdNotFoundException();
 
-        return list;
+        return returnList;
     }
 }

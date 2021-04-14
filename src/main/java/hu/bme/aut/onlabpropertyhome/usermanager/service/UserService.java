@@ -140,7 +140,7 @@ public class  UserService {
                     return new UserDetails(user.getName(), user.getPicture(), user.getTel());
             }
 
-            throw new AdNotFoundException();
+            // throw new AdNotFoundException();
         }
 
         throw new UserNotFoundException();

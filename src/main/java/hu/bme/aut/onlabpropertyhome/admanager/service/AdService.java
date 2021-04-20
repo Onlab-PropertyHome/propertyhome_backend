@@ -146,6 +146,9 @@ public class AdService {
                                     if (pprice >= 100000)
                                         returnList.add(a);
                                     break;
+                                default:
+                                    returnList.add(a);
+                                    break;
                             }
                         }
                         else {

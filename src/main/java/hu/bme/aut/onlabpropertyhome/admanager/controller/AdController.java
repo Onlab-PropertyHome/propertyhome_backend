@@ -37,16 +37,16 @@ public class AdController {
     @ResponseStatus(value = HttpStatus.OK, reason = "Ad edited successfully")
     public @ResponseBody Ad editAd (@PathVariable(value = "id") Integer id, @RequestParam String price, @RequestParam String location,
                                     @RequestParam String details, @RequestParam Integer roomNumber, @RequestParam String type,
-                                    @RequestParam String state, @RequestParam Integer size, @RequestParam String picture, @RequestParam Double lat, @RequestParam Double lng) {
-        return adService.editAd(id, price, location, details, roomNumber, type, state, size, picture, lat, lng);
+                                    @RequestParam String state, @RequestParam Integer size, @RequestParam(required = false) String picture, @RequestParam Double lat, @RequestParam Double lng, @RequestParam(required = false) String panoramaPicture) {
+        return adService.editAd(id, price, location, details, roomNumber, type, state, size, picture, lat, lng,panoramaPicture);
     }
 
     @PostMapping("/user/{id}/addad")
     @ResponseStatus(value = HttpStatus.CREATED, reason = "Ad added successfully")
     public @ResponseBody Ad addAd (@PathVariable(value = "id") Integer id, @RequestParam String price, @RequestParam String location,
                      @RequestParam String details, @RequestParam Integer roomNumber, @RequestParam String type,
-                     @RequestParam String state, @RequestParam Integer size, @RequestParam String picture, @RequestParam Double lat, @RequestParam Double lng) {
-        return adService.addAd(id, price, location, details, roomNumber, type, state, size, picture, lat, lng);
+                     @RequestParam String state, @RequestParam Integer size, @RequestParam(required = false) String picture, @RequestParam Double lat, @RequestParam Double lng, @RequestParam(required = false) String panoramaPicture) {
+        return adService.addAd(id, price, location, details, roomNumber, type, state, size, picture, lat, lng,panoramaPicture);
     }
 
     @GetMapping("/ad/find")

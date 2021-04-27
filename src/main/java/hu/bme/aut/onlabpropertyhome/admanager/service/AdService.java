@@ -45,9 +45,10 @@ public class AdService {
         adRepository.deleteById(id);
     }
 
-    public Ad editAd(Integer id, String price, String location, String details, Integer roomNumber, String type, String state, Integer size, String picture, Double lat, Double lng) {
+    public Ad editAd(Integer id, String price, String location, String details, Integer roomNumber, String type, String state, Integer size, String picture, Double lat, Double lng, String panoramaPicture) {
         if (adRepository.findById(id).isPresent() && propertyRepository.findById(id).isPresent()) {
             Ad old_ad = adRepository.findById(id).get();
+
             Property property = propertyRepository.findById(id).get();
 
             old_ad.setPicture(picture);
@@ -57,6 +58,8 @@ public class AdService {
             old_ad.setLocation(location);
             if(details != null && !details.equals(""))
             old_ad.setDetails(details);
+            if(panoramaPicture != null && !panoramaPicture.equals(""))
+                old_ad.setPanoramaPicture(panoramaPicture);
 
             property.setRoomNumber(roomNumber);
             property.setSize(size);
@@ -74,7 +77,7 @@ public class AdService {
         throw new AdNotFoundException();
     }
 
-    public Ad addAd(Integer id, String price, String location, String details, Integer roomNumber, String type, String state, Integer size, String picture, Double lat, Double lng) {
+    public Ad addAd(Integer id, String price, String location, String details, Integer roomNumber, String type, String state, Integer size, String picture, Double lat, Double lng, String panoramaPicture) {
         if (userRepository.findById(id).isPresent()) {
             User user = userRepository.findById(id).get();
 
@@ -84,6 +87,7 @@ public class AdService {
             ad.setPicture(picture);
             ad.setPrice(price);
             ad.setUser(user);
+            ad.setPanoramaPicture(panoramaPicture);
 
             Property property = new Property();
             property.setRoomNumber(roomNumber);

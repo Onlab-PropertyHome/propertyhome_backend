@@ -22,11 +22,15 @@ public class Ad {
     @PrimaryKeyJoinColumn
     private Property property;
 
-            private String picture;//kép később
+    private String picture;
+
     private String price;
     private String location;
     private String details;
 
+
+
+    private String panoramaPicture;
     public Ad() { }
 
     public void setAd_id(Integer id) {
@@ -47,9 +51,12 @@ public class Ad {
     public void setLocation(String location) {
         this.location = location;
     }
+
     public void setDetails(String details) {
         this.details = details;
     }
+    public String getPanoramaPicture() { return panoramaPicture; }
+    public void setPanoramaPicture(String panoramaPicture) { this.panoramaPicture = panoramaPicture; }
 
     public Integer getAd_id() {
         return this.ad_id;

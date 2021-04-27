@@ -28,7 +28,7 @@ public class TestController {
 
     @PutMapping(path="/edittest")
     public String test() {
-        adservice.editAd(1, "1111", "sztring", "ujdetails", 999, "ujtype", "ujstate", 987, "ujpicture", 40.0, 40.0);
+        adservice.editAd(1, "1111", "sztring", "ujdetails", 999, "ujtype", "ujstate", 987, "ujpicture", 40.0, 40.0,"urespanoramakep");
 
         return "je";
     }

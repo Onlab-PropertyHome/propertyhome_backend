@@ -166,11 +166,16 @@ public class  UserService {
         if (userRepository.findById(id).isPresent()) {
             User user = userRepository.findById(id).get();
                 AdSearch adsearch = new AdSearch();
-                adsearch.setLocation(location);
+                if(location!=null)
+                     adsearch.setLocation(location);
                 adsearch.setPrice(price);
-                adsearch.setRoomNumber(roomNumber);
-                adsearch.setType(type);
-                adsearch.setSize(size);
+                if(roomNumber !=  null)
+                     adsearch.setRoomNumber(roomNumber);
+                if(type != null)
+                    adsearch.setType(type);
+                if(size !=null)
+                     adsearch.setSize(size);
+
                 adsearch.setUser(user);
                 user.addAdSearch(adsearch);
                 adSearchRepository.save(adsearch);
@@ -181,8 +186,21 @@ public class  UserService {
         throw new UserNotFoundException();
     }
 
+public void removeAdSearch(Integer id,Integer searchid){
+        if(adSearchRepository.findById(searchid).isPresent()){
+            AdSearch adsearch = adSearchRepository.findById(searchid).get();
+            User user = userRepository.findById(id).get();
+            user.removeAdSearch(adsearch);
+            userRepository.save(user);
+            adSearchRepository.deleteById(searchid);
+        }
+
+}
 
 
-
+    public List<AdSearch> getSearches(Integer id) {
+        User user = userRepository.findById(id).get();
+        return user.getSearches();
     }
+}
 

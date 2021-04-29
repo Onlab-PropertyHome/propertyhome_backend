@@ -68,11 +68,26 @@ public class UserController {
     @PutMapping("/{id}/savesearch")
     @ResponseStatus(value=HttpStatus.OK, reason = "Search saved")
     public void saveAdSearch(@PathVariable(value = "id")Integer id,
-                                 @RequestParam String location,
-                                 @RequestParam String price,
-                                 @RequestParam String type,
-                                 @RequestParam Integer size,
-                                 @RequestParam Integer roomNumber){
+                                 @RequestParam(required = false) String location,
+                                 @RequestParam(required = false) String price,
+                                 @RequestParam(required = false) String type,
+                                 @RequestParam(required = false) Integer size,
+                                 @RequestParam(required = false) Integer roomNumber){
         userService.saveAdSearch(id,location,price,type,size,roomNumber);
+    }
+
+
+
+
+    @PutMapping("/{id}/removesearch/{searchid}")
+    @ResponseStatus(value=HttpStatus.OK, reason = "Search removed")
+    public void removeAdSearch(@PathVariable(value = "id")Integer id,
+                               @PathVariable(value = "searchid") Integer searchid) {
+        userService.removeAdSearch(id,searchid);
+    }
+
+    @GetMapping("/{id}/searches")
+    public @ResponseBody List<AdSearch> getSearches(@PathVariable(value = "id") Integer id){
+        return userService.getSearches(id);
     }
 }

@@ -72,6 +72,7 @@ public class User {
         this.picture = picture;
     }
 
+
     public Integer getId() {
         return user_id;
     }
@@ -111,4 +112,5 @@ public class User {
         this.favAds.clear();
     }
     public void addAdSearch(AdSearch adsearch){this.searches.add(adsearch);}
+    public void removeAdSearch(AdSearch adSearch){this.searches.remove(adSearch);}
 }

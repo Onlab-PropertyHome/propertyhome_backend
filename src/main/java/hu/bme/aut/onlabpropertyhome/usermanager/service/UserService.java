@@ -2,7 +2,9 @@ package hu.bme.aut.onlabpropertyhome.usermanager.service;
 
 import hu.bme.aut.onlabpropertyhome.admanager.exception.AdNotFoundException;
 import hu.bme.aut.onlabpropertyhome.admanager.model.Ad;
+import hu.bme.aut.onlabpropertyhome.admanager.model.AdSearch;
 import hu.bme.aut.onlabpropertyhome.admanager.repository.AdRepository;
+import hu.bme.aut.onlabpropertyhome.admanager.repository.AdSearchRepository;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.AdAlreadyInAdsException;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.AdAlreadyInFavsException;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.EmailAlreadyInUseException;
@@ -22,15 +24,17 @@ import java.util.List;
 public class  UserService {
     private final UserRepository userRepository;
     private final AdRepository adRepository;
+    private final AdSearchRepository adSearchRepository;
 
     // encoder
     @Autowired
     private PasswordEncoder bcryptEncoder;
 
     @Autowired
-    public UserService(UserRepository u, AdRepository adRepository){
+    public UserService(UserRepository u, AdRepository adRepository, AdSearchRepository adSearchRepository){
         this.userRepository = u;
         this.adRepository = adRepository;
+        this.adSearchRepository = adSearchRepository;
     }
 
     public User editUser(Integer id,String name, String email, String password, String tel, String picture) {
@@ -73,6 +77,11 @@ public class  UserService {
                     adRepository.delete(a);
                 }
             }
+            if(!user.getSearches().isEmpty()){
+                for (AdSearch a : user.getSearches()){
+                            adSearchRepository.delete(a);
+                }
+            }
             userRepository.deleteById(id);
             return;
         }
@@ -88,6 +97,8 @@ public class  UserService {
 
         throw new UserNotFoundException();
     }
+
+
 
     public User addAdToFav(Integer id, Integer ad_id) {
         if (userRepository.findById(id).isPresent()) {
@@ -145,4 +156,33 @@ public class  UserService {
 
         throw new UserNotFoundException();
     }
-}
+
+
+
+    public void saveAdSearch(Integer id, String location,
+                             String price, String type,
+                             Integer size, Integer roomNumber) {
+
+        if (userRepository.findById(id).isPresent()) {
+            User user = userRepository.findById(id).get();
+                AdSearch adsearch = new AdSearch();
+                adsearch.setLocation(location);
+                adsearch.setPrice(price);
+                adsearch.setRoomNumber(roomNumber);
+                adsearch.setType(type);
+                adsearch.setSize(size);
+                adsearch.setUser(user);
+                user.addAdSearch(adsearch);
+                adSearchRepository.save(adsearch);
+                userRepository.save(user);
+                return;
+        }
+
+        throw new UserNotFoundException();
+    }
+
+
+
+
+    }
+

@@ -51,7 +51,7 @@ public class AdController {
 
     @GetMapping("/ad/find")
     public @ResponseBody List<Ad> findAds(@RequestParam(required = false) Integer roomNumber, @RequestParam(required = false) String type,
-                                          @RequestParam(required = false) Integer size, @RequestParam(required = false) String price) {
-        return adService.findAds(roomNumber, type, size, price);
+                                          @RequestParam(required = false) Integer size, @RequestParam(required = false) String price, @RequestParam(required = false) String location) {
+        return adService.findAds(roomNumber, type, size, price,location);
     }
 }

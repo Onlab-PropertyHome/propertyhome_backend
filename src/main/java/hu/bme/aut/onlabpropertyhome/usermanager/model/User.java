@@ -1,6 +1,7 @@
 package hu.bme.aut.onlabpropertyhome.usermanager.model;
 
 import hu.bme.aut.onlabpropertyhome.admanager.model.Ad;
+import hu.bme.aut.onlabpropertyhome.admanager.model.AdSearch;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,6 +26,18 @@ public class User {
     private String password;
     private String tel;
     private String picture;
+
+    public List<AdSearch> getSearches() {
+        return searches;
+    }
+
+    public void setSearches(List<AdSearch> searches) {
+        this.searches = searches;
+    }
+
+    @OneToMany
+    @PrimaryKeyJoinColumn
+    private List<AdSearch> searches = new ArrayList<AdSearch>();
 
     public User() { }
     public User(String name, String email, String password, String tel, String picture) {
@@ -97,4 +110,5 @@ public class User {
     public void clearFavAds() {
         this.favAds.clear();
     }
+    public void addAdSearch(AdSearch adsearch){this.searches.add(adsearch);}
 }

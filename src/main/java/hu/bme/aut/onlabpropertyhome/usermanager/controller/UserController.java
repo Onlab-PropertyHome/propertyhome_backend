@@ -1,5 +1,6 @@
 package hu.bme.aut.onlabpropertyhome.usermanager.controller;
 
+import hu.bme.aut.onlabpropertyhome.admanager.model.AdSearch;
 import hu.bme.aut.onlabpropertyhome.usermanager.model.User;
 import hu.bme.aut.onlabpropertyhome.usermanager.model.UserDetails;
 import hu.bme.aut.onlabpropertyhome.usermanager.service.UserService;
@@ -62,5 +63,16 @@ public class UserController {
     @GetMapping("/find")
     public @ResponseBody UserDetails findUserByAdId(@RequestParam Integer ad_id) {
         return userService.findUserByAdId(ad_id);
+    }
+
+    @PutMapping("/{id}/savesearch")
+    @ResponseStatus(value=HttpStatus.OK, reason = "Search saved")
+    public void saveAdSearch(@PathVariable(value = "id")Integer id,
+                                 @RequestParam String location,
+                                 @RequestParam String price,
+                                 @RequestParam String type,
+                                 @RequestParam Integer size,
+                                 @RequestParam Integer roomNumber){
+        userService.saveAdSearch(id,location,price,type,size,roomNumber);
     }
 }

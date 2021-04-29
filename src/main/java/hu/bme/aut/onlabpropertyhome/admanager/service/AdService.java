@@ -3,6 +3,7 @@ package hu.bme.aut.onlabpropertyhome.admanager.service;
 import hu.bme.aut.onlabpropertyhome.admanager.exception.AdNotFoundException;
 import hu.bme.aut.onlabpropertyhome.admanager.model.Ad;
 import hu.bme.aut.onlabpropertyhome.admanager.repository.AdRepository;
+import hu.bme.aut.onlabpropertyhome.admanager.repository.AdSearchRepository;
 import hu.bme.aut.onlabpropertyhome.propertymanager.model.Property;
 import hu.bme.aut.onlabpropertyhome.propertymanager.repository.PropertyRepository;
 import hu.bme.aut.onlabpropertyhome.usermanager.exception.UserNotFoundException;
@@ -21,12 +22,14 @@ public class AdService {
     private final AdRepository adRepository;
     private final PropertyRepository propertyRepository;
     private final UserRepository userRepository;
+    private final AdSearchRepository adSearchRepository;
 
     @Autowired
-    public AdService(AdRepository adRepository, PropertyRepository propertyRepository, UserRepository userRepository) {
+    public AdService(AdRepository adRepository, PropertyRepository propertyRepository, UserRepository userRepository, AdSearchRepository adSearchRepository) {
         this.adRepository = adRepository;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
+        this.adSearchRepository = adSearchRepository;
     }
 
     public List<Ad> findAllAds() {
@@ -112,17 +115,19 @@ public class AdService {
         throw new UserNotFoundException();
     }
 
-    public List<Ad> findAds(Integer roomNumber, String type, Integer size, String price) {
+    public List<Ad> findAds(Integer roomNumber, String type, Integer size, String price, String location) {
         List<Ad> list = adRepository.findAll();
         List<Ad> returnList = new ArrayList<>();
 
         for (Ad a : list) {
             Property p = a.getProperty();
 
+        if(location == null || a.getLocation().contains(location)){
             if (roomNumber == null || p.getRoomNumber().equals(roomNumber)) {
                 if (size == null || p.getSize() < size) {
                     if (type == null || p.getType().equals(type)) {
                         if (price != null) {
+
                             int pprice = Integer.parseInt(a.getPrice());
 
                             switch (price) {
@@ -160,7 +165,7 @@ public class AdService {
                         }
                     }
                 }
-            }
+            }}
         }
 
         if (returnList.isEmpty())
